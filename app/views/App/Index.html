@@ -6,8 +6,13 @@
 
 <main class="container col-lg-12">
   <div class="main-content">
-    <h1><a href="/random">Random</a></h1>
-    <h1>Movie list</h1>
+    <div class="button-container col-lg-12">
+      {{set . "buttonType" "primary"}}
+      {{set . "buttonValue" "Random"}}
+      {{set . "path" "/random"}}
+      {{template "button.html" .}}
+    </div>
+    <h2>Movie list</h2>
     <ul>
     {{range $i, $vFile := .vl}}
       <a href="/play?v={{$vFile.Hash}}">{{$vFile.Name}}</a><br>

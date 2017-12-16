@@ -22,7 +22,6 @@ func VideoList(path string) map[string]videoFile {
 }
 
 func readFiles(path string) map[string]videoFile {
-	// var fileList map[string]videoFile
 	fileList := make(map[string]videoFile)
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
@@ -35,7 +34,6 @@ func readFiles(path string) map[string]videoFile {
 			folderFiles := readFiles(filePath)
 			for _, folderFile := range folderFiles {
 				fileList[folderFile.Hash] = folderFile
-				// fileList = append(fileList, folderFile)
 			}
 		} else {
 			f := buildVideoFile(fileName, filePath)

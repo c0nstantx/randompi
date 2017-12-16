@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
+	"math/rand"
 	"os/exec"
 	"path/filepath"
 	"randompi/app/services"
+	"syscall"
 
 	"github.com/revel/revel"
 )
@@ -16,6 +17,7 @@ type App struct {
 
 const mediaPath = "/media/videos"
 const omxplayerPath = "/home/pi/omxplayer"
+const rootPassword = "pipass123"
 
 func (c App) Index() revel.Result {
 	vl := services.VideoList(mediaPath)
@@ -23,18 +25,34 @@ func (c App) Index() revel.Result {
 	return c.Render(vl)
 }
 
+func (c App) Reboot() revel.Result {
+	syscall.Reboot(syscall.LINUX_REBOOT_CMD_RESTART)
+	// cmd := exec.Command("echo", rootPassword, "|", "sudo", "-S", "reboot")
+	// err := cmd.Run()
+	// if err != nil {
+	// 	log.Print(err)
+	// }
+
+	return c.Render()
+}
+
 func (c App) Random() revel.Result {
 	stopPlayer()
 	vl := services.VideoList(mediaPath)
-	fileList := ""
+	i := len(vl)
+	rand := rand.Intn(i) + 1
 	for _, v := range vl {
-		cmd := exec.Command(getOmxplayer(), "-p", "-o", "hdmi", v.Path)
-		err := cmd.Run()
-		if err != nil {
-			log.Fatal(err)
+		if rand == i {
+			cmd := exec.Command(getOmxplayer(), "-p", "-o", "hdmi", v.Path)
+			err := cmd.Start()
+			if err != nil {
+				log.Print(err)
+			}
+			break
 		}
+		i--
 	}
-	fmt.Println(fileList)
+
 	return c.Render()
 }
 
@@ -46,7 +64,7 @@ func (c App) Play() revel.Result {
 	cmd := exec.Command(getOmxplayer(), "-p", "-o", "hdmi", video.Path)
 	err := cmd.Start()
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	return c.Render(video)
 }
@@ -74,17 +92,17 @@ func (c App) Resume() revel.Result {
 
 func stopPlayer() {
 	cmd := exec.Command(getDbusControl(), "stop")
-	err := cmd.Start()
+	err := cmd.Run()
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 }
 
 func pausePlayer() {
 	cmd := exec.Command(getDbusControl(), "pause")
-	err := cmd.Start()
+	err := cmd.Run()
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 }
 

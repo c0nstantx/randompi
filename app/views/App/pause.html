@@ -9,11 +9,26 @@
     <h1>Paused</h1>
     <h2>{{.video.Name}}</h2>
     <br><br>
-    <a href="/resume?v={{.video.Hash}}">Resume</a>
-    <br>
-    <a href="/stop">Stop</a>
-    <br>
-    <a href="/">Home</a>
+    <div class="button-container col-lg-12">
+      {{set . "buttonType" "success"}}
+      {{set . "buttonValue" "Resume"}}
+      {{set . "path" "/resume"}}
+      {{template "button.html" .}}
+    </div>
+
+    <div class="button-container col-lg-12">
+      {{set . "buttonType" "danger"}}
+      {{set . "buttonValue" "Stop"}}
+      {{set . "path" "/stop"}}
+      {{template "button.html" .}}
+    </div>
+
+    <div class="button-container col-lg-12">
+      {{set . "buttonType" "primary"}}
+      {{set . "buttonValue" "Home"}}
+      {{set . "path" "/"}}
+      {{template "button.html" .}}
+    </div>
   </div>
 </main>
 

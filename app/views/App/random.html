@@ -1,4 +1,4 @@
-{{set . "title" "Home"}}
+{{set . "title" "Random"}}
 {{template "header.html" .}}
 
 {{template "navigation.html" .}}
@@ -8,11 +8,26 @@
   <div class="main-content">
     <h1>Now Playing Random</h1>
     <br><br>
-    <a href="/pause?v={{.video.Hash}}">Pause</a>
-    <br>
-    <a href="/stop">Stop</a>
-    <br>
-    <a href="/">Home</a>
+    <div class="button-container col-lg-12">
+      {{set . "buttonType" "success"}}
+      {{set . "buttonValue" "Pause"}}
+      {{set . "path" "/pause"}}
+      {{template "button.html" .}}
+    </div>
+
+    <div class="button-container col-lg-12">
+      {{set . "buttonType" "danger"}}
+      {{set . "buttonValue" "Stop"}}
+      {{set . "path" "/stop"}}
+      {{template "button.html" .}}
+    </div>
+
+    <div class="button-container col-lg-12">
+      {{set . "buttonType" "primary"}}
+      {{set . "buttonValue" "Home"}}
+      {{set . "path" "/"}}
+      {{template "button.html" .}}
+    </div>
   </div>
 </main>
 
