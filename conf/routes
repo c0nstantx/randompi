@@ -8,6 +8,11 @@ module:testrunner
 
 
 GET     /                                       App.Index
+GET		/play									App.Play
+GET		/stop									App.Stop
+GET		/pause									App.Pause
+GET		/resume									App.Resume
+GET		/random									App.Random
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

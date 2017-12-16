@@ -6,13 +6,13 @@
 
 <main class="container col-lg-12">
   <div class="main-content">
-    <h1><a href="/random">Random</a></h1>
-    <h1>Movie list</h1>
-    <ul>
-    {{range $i, $vFile := .vl}}
-      <a href="/play?v={{$vFile.Hash}}">{{$vFile.Name}}</a><br>
-    {{end}}
-    </ul>
+    <h1>Now Playing Random</h1>
+    <br><br>
+    <a href="/pause?v={{.video.Hash}}">Pause</a>
+    <br>
+    <a href="/stop">Stop</a>
+    <br>
+    <a href="/">Home</a>
   </div>
 </main>
 
