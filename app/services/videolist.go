@@ -41,7 +41,6 @@ func readFiles(path string) map[string]videoFile {
 			f := buildVideoFile(fileName, filePath)
 			if len(f.Name) > 0 {
 				fileList[f.Hash] = f
-				// fileList = append(fileList, f)
 			}
 		}
 	}
@@ -50,6 +49,7 @@ func readFiles(path string) map[string]videoFile {
 }
 
 func buildVideoFile(name string, path string) videoFile {
+	vFile := videoFile{}
 	file, _ := os.Open(path)
 	head := make([]byte, 261)
 	file.Read(head)
@@ -57,8 +57,11 @@ func buildVideoFile(name string, path string) videoFile {
 		hashData := []byte(path)
 		hashBytes := md5.Sum(hashData)
 		hash := fmt.Sprintf("%x", hashBytes)
-		return videoFile{hash, name, path}
+		vFile.Hash = hash
+		vFile.Name = name
+		vFile.Path = path
 	}
+	file.Close()
 
-	return videoFile{}
+	return vFile
 }
